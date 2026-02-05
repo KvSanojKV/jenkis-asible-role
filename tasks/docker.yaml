@@ -3,15 +3,23 @@
    name: docker
    state: present
    update_cache: true
-- name: start and enable docker service
-  service:
-   name: docker
-   state: started
-   enabled: true
+
 - name:  Add jenkins used to docker group
   user:
    name: jenkins
    group: docker
    append: true
+
+- name: start and enable docker service
+  service:
+   name: docker
+   state: started
+   enabled: true
    
+
+- name: Enable and start Jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: true
 
