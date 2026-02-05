@@ -19,5 +19,6 @@
     state: started
     enabled: true
 - name: Install git
-  service: git
+  dnf:
+  name:  git
   state: present 
