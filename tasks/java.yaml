@@ -1,0 +1,6 @@
+- name: Install Dependencies
+  dnf:
+   name: java-17-amazon-corretto
+   state: present
+   update_cache: true
+   

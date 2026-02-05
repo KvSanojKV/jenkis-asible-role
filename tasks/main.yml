@@ -1,0 +1,6 @@
+# tasks file for jenkins
+   - import_tasks: java.yaml
+   - import_tasks: jenkins.yaml
+   - import_tasks: docker.yaml
+   - import_tasks: resource.yaml
+

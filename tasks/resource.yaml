@@ -1,0 +1,42 @@
+- name: Check current swap
+  command: swapon --show
+  register: swap_status
+  changed_when: false
+
+- name: Configure 2GB swap and /tmp
+  command: fallocate -l 2G /swapfile
+  args:
+        creates: /swapfile
+  when: swap_status.stdout == ""
+
+- name: Set swapfile permissions
+  file:
+        path: /swapfile
+        owner: root
+        group: root
+        mode: '0600'
+
+- name: Make swap
+  command: mkswap /swapfile
+  when: swap_status.stdout == ""
+
+- name: Enable swap
+  command: swapon /swapfile
+  when: swap_status.stdout == ""
+
+- name: Persist swap in fstab
+  mount:
+        name: none
+        src: /swapfile
+        fstype: swap
+        opts: sw
+        state: present
+
+- name: Ensure /tmp is mounted as 2GB tmpfs
+  mount:
+        path: /tmp
+        src: tmpfs
+        fstype: tmpfs
+        opts: defaults,size=2G
+        state: mounted
+
